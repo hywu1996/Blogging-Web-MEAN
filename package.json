@@ -4,7 +4,7 @@
   "description": "MEAN stack with Angular",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/hywu1996/Blogging-Web-MEAN/issues"
   },
-  "homepage": "https://github.com/hywu1996/Blogging-Web-MEAN#readme"
+  "homepage": "https://github.com/hywu1996/Blogging-Web-MEAN#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.1"
+  }
 }
