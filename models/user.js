@@ -65,7 +65,7 @@ let validPassword = (pw) => {
     if (!pw) {
         return false;
     } else {
-        const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,35}$/;
+        const re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,35}$/;
         return re.test(pw);
     }
 };
