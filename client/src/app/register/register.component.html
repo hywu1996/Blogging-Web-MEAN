@@ -1,25 +1,34 @@
 <h1 class="page-header">Register Page</h1>
 
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+
 <form [formGroup]="form" (submit)="onRegisterSubmit()">
   <div class="form-group">
       <label for="username">Username</label>
-      <div [ngClass]="{'has-error': (form.controls.username.errors && form.controls.username.dirty),'has-success': !form.controls.username.errors}">
-        <input type="text" name="username" class="form-control" autocomplete="off" placeholder="Username" formControlName="username"/>
+      <div [ngClass]="{'has-error': (form.controls.username.errors || !usernameValid) && form.controls.username.dirty,'has-success': !form.controls.username.errors && usernameValid}">
+        <input type="text" name="username" class="form-control" autocomplete="off" placeholder="Username" formControlName="username" (input)="checkUsername()"/>
         <ul class="help-block">
             <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
             <li *ngIf="(form.controls.username.errors?.minlength || form.controls.username.errors?.maxlength)  && form.controls.username.dirty">Username must be between 3 and 15 characters long.</li>
             <li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty">Username cannot contain any special characters.</li>
+            <li *ngIf="usernameMessage && !form.controls.username.errors"> {{usernameMessage}} </li>
           </ul>
       </div>
     </div>
 
   <div class="form-group">
     <label for="email">Email address</label>
-    <div [ngClass]="{'has-error': (form.controls.email.errors && form.controls.email.dirty),'has-success': !form.controls.email.errors}">
-        <input type="text" name="email" class="form-control" autocomplete="off" placeholder="*Email" formControlName="email" />
+    <div [ngClass]="{'has-error': (form.controls.email.errors || !emailValid) && form.controls.email.dirty,'has-success': !form.controls.email.errors && emailValid}">
+        <input type="text" name="email" class="form-control" autocomplete="off" placeholder="*Email" formControlName="email" (input)="checkEmail()" />
         <ul class="help-block">
           <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
           <li *ngIf="(form.controls.email.errors?.minlength || form.controls.email.errors?.minlength || form.controls.email.errors?.validateEmail) && form.controls.email.dirty">Invalid email.</li>
+          <li *ngIf="emailMessage && !form.controls.email.errors">{{ emailMessage }}</li>
         </ul>
     </div>
 
@@ -47,7 +56,7 @@
       </ul>
     </div>   
   </div>
-  <input [disabled]="!form.valid" type="submit" class="btn btn-primary" value="Submit"/>
+  <input [disabled]="!form.valid || processing || !emailValid || !usernameValid" type="submit" class="btn btn-primary" value="Submit"/>
 </form>
 
 <!-- <p>Username: {{ form.controls.username.value }}</p>
