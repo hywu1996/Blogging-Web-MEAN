@@ -4,11 +4,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/not-auth.guard';
 
 const routes: Routes =  [
   { path: '', component: HomeComponent},         
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'register', component: RegisterComponent},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', component: HomeComponent}
 ];
 

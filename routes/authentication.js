@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const config = require('../config/database');
 
 module.exports = (router) => {
     router.post('/register', (req, res) => {
@@ -85,6 +87,63 @@ module.exports = (router) => {
             });
         }
     });
+
+    router.post('/login', (req, res) => {
+        if (!req.body.username) {
+            res.json({ success: false, message: 'No username was provided.' });
+        } else {
+            User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
+                if (!user) {
+                    res.json({ success: false, message: 'That username does not exist' });
+                } else {
+                    user.comparePassword(req.body.password, (err, match) => {
+                        if (err) {
+                            res.json({ success: false, message: 'Error: ', err }); 
+                        } else {
+                            if (match) {
+                                const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' });
+                                res.json({ success: true, message: 'Login Successful', token: token, user: { username: user.username } });
+                            } else {
+                                res.json({ success: false, message: 'Password incorrect.' });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+    
+    //any routes require authorization comes after this
+    router.use( (req, res, next) => {
+        const token = req.headers['authorization'];
+        if (!token) {
+            res.json({ success: false, message: 'No token provided' });
+        } else {
+            jwt.verify(token, config.secret, (err,decoded) => {
+                if (err) {
+                    res.json({ success: false, message: 'Token invalid: ' + err });
+                } else {
+                    req.decoded = decoded;
+                    next();
+                }
+            });
+        }
+    });
+
+
+    router.get('/profile', (req,res) => {
+        User.findOne({ _id: req.decoded.userId }).select('username email').exec((err,user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'User not found' });
+                } else {
+                    res.json({ success: true, user: user});
+                }
+            }
+        });
+    }); 
 
     return router;
 } 

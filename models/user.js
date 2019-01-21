@@ -100,12 +100,10 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.comparePassword = (password) => {
-    return bcrypt.compare(password, this.password, (err, res) => {
-        if (err) {
-            return false;
-        }
-        return res;
+userSchema.methods.comparePassword = function(password, callback) {
+    let ret;
+    bcrypt.compare(password, this.password, (err, res) => { 
+        callback(err, res); 
     });
 };
 
