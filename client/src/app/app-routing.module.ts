@@ -6,8 +6,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { BlogComponent } from './blog/blog.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
+import { from } from 'rxjs';
 
 const routes: Routes =  [
   { path: '', component: HomeComponent},         
@@ -15,7 +17,8 @@ const routes: Routes =  [
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '**', component: HomeComponent}
+  { path: 'blog', component: BlogComponent },
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({

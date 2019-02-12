@@ -1,0 +1,80 @@
+<h1 class="page-header">Blog Feed</h1>
+<!-- 
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div> -->
+
+<button type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="reloadBlogs()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Reload</button>
+
+
+<br>
+<br>
+
+<div *ngIf="!newPost">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Post Title</h3>
+    </div>
+    <div class="panel-body">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis leo at lorem elementum vehicula nec ut massa. Phasellus dapibus lectus a purus ultricies, in faucibus urna euismod. Phasellus ultrices dolor et dui tincidunt, et eleifend dolor placerat. Donec tristique est finibus, commodo orci quis, porttitor mi. Ut ac rutrum odio. Integer auctor vel est vitae vestibulum. Fusce ac mauris pellentesque, euismod mi in, lacinia mauris. Vestibulum elit arcu, cursus ut nisi in, lobortis iaculis erat. Donec mauris elit, dictum in quam ut, varius placerat lectus. Vivamus pellentesque elementum risus, ac semper risus ultricies ac. Donec sed venenatis elit, ut accumsan sapien. Phasellus sed sodales nunc. Nam ac metus blandit, consequat augue at, maximus tortor. Morbi pellentesque mi tempor, euismod metus sed, molestie urna. Vivamus at mauris faucibus, sodales sem nec, consectetur augue.
+    </div>
+    <!-- footer -->
+    <div class="panel-footer">
+      <strong>Posted by: </strong>harry wu
+      <br>
+      <strong>Date: </strong>Feb 10, 2019
+      <br>
+      <div>
+        <strong>Likes: </strong>25
+        <br>
+        <strong>Dislikes: </strong>25
+      </div>
+      <!-- Edit Button -->
+      <a href="#"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
+      <!-- Delete Button -->
+      <a href="#"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+
+      <!-- like -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-sm btn-success">
+          <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 21
+        </button>
+        <div class="dropdown-content">
+          <a href="#">gawjeklhg</a>
+          <a href="#">aghlkjbnn</a>
+          <a href="#">asega</a>
+        </div>
+      </div>
+
+      <!-- Dislikes -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-sm btn-warning">
+          <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span>Dislikes: 2
+        </button>
+        <div class="dropdown-content">
+          <a href="#">gawjeklhg</a>
+          <a href="#">aghlkjbnn</a>
+          <a href="#">asega</a>
+        </div>
+      </div>
+
+    </div>
+    <!-- footer end -->
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment()">Post Comment</button>
+        <br>
+        <!-- <form>
+          <textarea name="comment" cols="30" rows="10" class="form-control"></textarea>
+          <button type="button" name="button" class="btn btn-sm btn-info">Post</button>
+          <button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
+        </form> -->
+      </li>
+    </ul>
+
+  </div>
+</div>
