@@ -18,6 +18,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { BlogComponent } from './blog/blog.component';
+import { BlogService } from './services/blog.service';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -48,7 +49,7 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard],
+  providers: [AuthService, AuthGuard, NotAuthGuard, BlogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
