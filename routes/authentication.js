@@ -112,7 +112,7 @@ module.exports = (router) => {
             });
         }
     });
-    
+    // MIDDLEWARE
     //any routes require authorization comes after this
     router.use( (req, res, next) => {
         const token = req.headers['authorization'];

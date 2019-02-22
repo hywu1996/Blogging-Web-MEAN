@@ -1,26 +1,13 @@
-const mongoose     = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const Schema       = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 
-let emailChecker = (email) => {
-    if (!email) {
+let titleLengthChecker = (title) => {
+    if (!title) {
         return false;
     } else {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //from stackoverflow by: community
-        return re.test(email);
-    }
-};
-
-const emailValidators = [{
-        validator: emailChecker, message: 'Invalid email format.'
-}];
-
-let usernameLengthChecker = (un) => {
-    if (!un) {
-        return false;
-    } else {
-        if (un.length < 3 || un.length > 15) {
+        if (title.length < 5 || title.length > 50) {
             return false;
         } else {
             return true;
@@ -28,31 +15,31 @@ let usernameLengthChecker = (un) => {
     }
 };
 
-let validUsername = (un) => {
-    if (!un) {
+let alphaNumericTitleChecker = (title) => {
+    if (!title) {
         return false;
     } else {
-        const re = /^[a-zA-z0-9]+$/;
-        return re.test(un);
+        const re = /^[a-zA-z0-9 ]+$/; //from stackoverflow by: community
+        return re.test(title);
     }
 };
 
-const usernameValidators = [
+const titleValidators = [
     {
-        validator: usernameLengthChecker,
-        message: "Username must be at least 3 characters but not more than 15."
+        validator: titleLengthChecker, 
+        message: 'Title must be between 5 and 50 characters long.'
     },
     {
-        validator: validUsername,
-        message: 'Username can only contain letters and numbers.'
+        validator: alphaNumericTitleChecker, 
+        message: 'Title must contain only letters, numbers or spaces.'
     }
 ];
 
-let passwordLengthChecker = (password) => {
-    if (!password) {
+let bodyLengthChecker = (body) => {
+    if (!body) {
         return false;
     } else {
-        if (password.length < 8 || password.length > 35) {
+        if (body.length < 5 || body.length > 5000) {
             return false;
         } else {
             return true;
@@ -60,38 +47,44 @@ let passwordLengthChecker = (password) => {
     }
 };
 
-let validPassword = (pw) => {
-    if (!pw) {
-        return false;
-    } else {
-        const re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,35}$/;
-        return re.test(pw);
-    }
-};
-
-const passwordValidators = [
+const bodyValidators = [
     {
-        validator: passwordLengthChecker,
-        message: 'Password must be between 8 and 35 characters'
-    },
-    {
-        validator: validPassword,
-        message: 'Password must have at least one uppercase letter, one lowercase letter, one number and one special character'
+        validator: bodyLengthChecker,
+        message: "Body must be at least 5 characters but not more than 500."
     }
 ];
 
-const blogSchema = newSchema({
-    title: { type: String, required: true },
-    body: { type: String, required: true },
+let commentLengthChecker = (comment) => {
+    if (!comment[0]) {
+        return false;
+    } else {
+        if (comment[0].length < 1 || comment[0].length > 200) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+};
+
+const commentValidators = [
+    {
+        validator: commentLengthChecker,
+        message: 'Comment must not exceed 200 characters'
+    }
+];
+
+const blogSchema = new Schema({
+    title: { type: String, required: true, validate: titleValidators },
+    body: { type: String, required: true, validate: bodyValidators },
     createdBy: { type: String },
     createdAt: { type: Date, default: Date.now() },
-    likes: { type: Number, default: 0},
-    likedBy: {type: Array },
-    dislikes: { type: Number, default: 0},
-    dislikedBy: {type: Array },
+    likes: { type: Number, default: 0 },
+    likedBy: { type: Array },
+    dislikes: { type: Number, default: 0 },
+    dislikedBy: { type: Array },
     comments: [
         {
-            comment: { type: String },
+            comment: { type: String, validate: commentValidators },
             commentator: { type: String }
         }
     ]
