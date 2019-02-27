@@ -51,32 +51,32 @@
 <!-- END NEW BLOG FORM -->
 
 <div *ngIf="!newPost">
-  <div class="panel panel-primary">
+  <div class="panel panel-primary" *ngFor="let blog of blogPosts">
     <div class="panel-heading">
-      <h3 class="panel-title">Post Title</h3>
+      <h3 class="panel-title">{{blog.title}}</h3>
     </div>
     <div class="panel-body">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis leo at lorem elementum vehicula nec ut massa. Phasellus dapibus lectus a purus ultricies, in faucibus urna euismod. Phasellus ultrices dolor et dui tincidunt, et eleifend dolor placerat. Donec tristique est finibus, commodo orci quis, porttitor mi. Ut ac rutrum odio. Integer auctor vel est vitae vestibulum. Fusce ac mauris pellentesque, euismod mi in, lacinia mauris. Vestibulum elit arcu, cursus ut nisi in, lobortis iaculis erat. Donec mauris elit, dictum in quam ut, varius placerat lectus. Vivamus pellentesque elementum risus, ac semper risus ultricies ac. Donec sed venenatis elit, ut accumsan sapien. Phasellus sed sodales nunc. Nam ac metus blandit, consequat augue at, maximus tortor. Morbi pellentesque mi tempor, euismod metus sed, molestie urna. Vivamus at mauris faucibus, sodales sem nec, consectetur augue.
+      {{blog.body}}
     </div>
     <!-- footer -->
     <div class="panel-footer">
-      <strong>Posted by: </strong>harry wu
+      <strong>Posted by: </strong>{{blog.createdBy}}
       <br>
-      <strong>Date: </strong>Feb 10, 2019
+      <strong>Date: </strong>{{blog.createdAt | date: 'MMM dd, yyyy'}}
       <br>
-      <div>
-        <strong>Likes: </strong>25
+      <div *ngIf='username===blog.createdBy'>
+        <strong>Likes: </strong>{{blog.likes}}
         <br>
-        <strong>Dislikes: </strong>25
+        <strong>Dislikes: </strong>{{blog.dislikes}}
       </div>
       <!-- Edit Button -->
-      <a href="#"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
+      <a [routerLink]="['/edit-blog/', blog._id]" *ngIf='username===blog.createdBy'><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
       <!-- Delete Button -->
-      <a href="#"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+      <a [routerLink]="['/delete-blog/', blog._id]" *ngIf='username===blog.createdBy'><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
 
       <!-- like -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-sm btn-success">
+        <button type="button" name="button" class="btn btn-sm btn-success" *ngIf='username!=blog.createdBy'>
           <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 21
         </button>
         <div class="dropdown-content">
@@ -88,7 +88,7 @@
 
       <!-- Dislikes -->
       <div class="dropdown">
-        <button type="button" name="button" class="btn btn-sm btn-warning">
+        <button type="button" name="button" class="btn btn-sm btn-warning" *ngIf='username!=blog.createdBy'>
           <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span>Dislikes: 2
         </button>
         <div class="dropdown-content">

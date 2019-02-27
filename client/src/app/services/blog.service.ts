@@ -31,4 +31,8 @@ export class BlogService {
     return this.http.post(this.domain+'/blogs/newBlog', blog, this.httpOptions);
   }
 
+  getAllBlogs() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain+'/blogs/allBlogs', this.httpOptions); 
+  }
 }
