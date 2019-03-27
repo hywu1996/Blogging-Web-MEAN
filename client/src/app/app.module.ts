@@ -19,6 +19,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { BlogComponent } from './blog/blog.component';
 import { BlogService } from './services/blog.service';
+import { EditBlogComponent } from './blog/edit-blog/edit-blog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -33,7 +34,8 @@ export function tokenGetter() {
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    BlogComponent
+    BlogComponent,
+    EditBlogComponent
   ],
   imports: [
     BrowserModule,
